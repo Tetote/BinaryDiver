@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void gameover() {
         jeu.stopGame();
-        jeu.setLastscore(jeu.getScore());
+        jeu.setLastscore((int)(jeu.getScore() * jeu.getDifficulty().getMultiplier()));
         storeScore();
         showDialog();
     }
@@ -144,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateScore() {
-        tvScore.setText("Score : " + jeu.getCurrentScore());
+        tvScore.setText("Score : "
+                + ((int)(jeu.getCurrentScore() * jeu.getDifficulty().getMultiplier())));
     }
 }
