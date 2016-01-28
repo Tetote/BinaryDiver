@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:text="Normal"
                 android:id="@+id/radioButtonNormal"
-                android:checked="false" />
+                android:checked="true" />
 
             <RadioButton
                 android:layout_width="wrap_content"
@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:text="Femme"
                 android:id="@+id/radioButtonFemme"
-                android:checked="false" />
+                android:checked="true" />
 
             <RadioButton
                 android:layout_width="wrap_content"
