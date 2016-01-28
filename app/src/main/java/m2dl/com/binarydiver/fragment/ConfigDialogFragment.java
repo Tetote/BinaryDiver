@@ -1,7 +1,9 @@
 package m2dl.com.binarydiver.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,12 +29,37 @@ public class ConfigDialogFragment  extends DialogFragment{
         ConfigDialogFragment dialog = new ConfigDialogFragment();
         return dialog;
     }
+    @Override
+    public void onResume() {
+        super.onResume();
 
+        getDialog().setOnKeyListener(new DialogInterface.OnKeyListener()
+        {
+            @Override
+            public boolean onKey(android.content.DialogInterface dialog, int keyCode,
+                                 android.view.KeyEvent event) {
+
+                if ((keyCode ==  android.view.KeyEvent.KEYCODE_BACK))
+                {
+                    //This is the filter
+                    if (event.getAction()!= KeyEvent.ACTION_DOWN)
+                        return true;
+                    else
+                    {
+                        //Hide your keyboard here!!!!!!
+                        return true; // pretend we've processed it
+                    }
+                }
+                else
+                    return false; // pass on to be processed as normal
+            }
+        });
+    }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.config_fragment, container, false);
         getDialog().setTitle("Configurer votre partie");
-
+        getDialog().setCanceledOnTouchOutside(false);
         jeu = ((MainActivity) getActivity()).getJeu();
 
         TextView txHighScore = (TextView) v.findViewById(R.id.textViewHighScore);
