@@ -11,8 +11,10 @@ import android.widget.TextView;
 
 import m2dl.com.binarydiver.MainActivity;
 import m2dl.com.binarydiver.R;
+import m2dl.com.binarydiver.controls.DiveControl;
 import m2dl.com.binarydiver.data.Difficulty;
 import m2dl.com.binarydiver.data.Jeu;
+import m2dl.com.binarydiver.exceptions.UnsupportedMaterialException;
 
 /**
  * Created by Lucas-PCP on 28/01/2016.
@@ -61,6 +63,12 @@ public class ConfigDialogFragment  extends DialogFragment{
                 jeu.setSex(radioGroupSexe.getCheckedRadioButtonId() == R.id.radioButtonHomme);
 
                 jeu.createPerso();
+
+                try {
+                    DiveControl diveControl = new DiveControl(getContext(), jeu.getPerso());
+                } catch (UnsupportedMaterialException e) {
+                    e.printStackTrace();
+                }
 
                 getDialog().dismiss();
                 ((MainActivity) getActivity()).launch();

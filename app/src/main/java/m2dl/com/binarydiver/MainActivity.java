@@ -9,6 +9,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 
 import m2dl.com.binarydiver.data.Jeu;
@@ -20,6 +22,9 @@ public class MainActivity extends AppCompatActivity {
     public static final String PREFS_NAME = "BinaryDiver";
     public static final String PREF_HIGH_SCORE = "highscore";
     public static final String PREF_LAST_SCORE = "lastscore";
+
+    public static int HEIGHT;
+    public static int WIDTH;
 
     private Jeu jeu;
     private static final int TIME = 100;
@@ -46,6 +51,15 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        WIDTH = metrics.widthPixels;
+        HEIGHT = metrics.heightPixels;
+
+        Log.i("TAILLE", "Display width in px is " + metrics.widthPixels);
+        Log.i("TAILLE", "Display height in px is " + metrics.heightPixels);
 
         // Create empty game
         jeu = new Jeu(getApplicationContext());
