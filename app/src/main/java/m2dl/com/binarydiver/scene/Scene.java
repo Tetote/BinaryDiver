@@ -35,6 +35,9 @@ public class Scene extends View{
     private Queue<Obstacle> obstacles = new LinkedList<>();
     private MainActivity activity;
     private int maxObstacles;
+    private int afterBigPop;
+    private int stopBeforeBig;
+    private int beforeWarn;
 
     public Scene(Context context) {
         super(context);
@@ -51,20 +54,33 @@ public class Scene extends View{
             case FACILE:
                 this.maxObstacles = Constants.EASY_POP;
                 this.velocity = Constants.EASY_VELOCITY;
+                this.afterBigPop = Constants.EASY_AFTER_BIG_POP;
+                this.stopBeforeBig = Constants.EASY_STOP_BEFORE_BIG;
+                this.beforeWarn = Constants.EASY_BEFORE_WARN;
                 break;
             case NORMAL:
                 this.velocity = Constants.NORMAL_VELOCITY;
                 this.maxObstacles = Constants.NORMAL_POP;
+                this.afterBigPop = Constants.NORMAL_AFTER_BIG_POP;
+                this.stopBeforeBig = Constants.NORMAL_STOP_BEFORE_BIG;
+                this.beforeWarn = Constants.NORMAL_BEFORE_WARN;
                 break;
             case DIFFICILE:
                 this.velocity = Constants.DIFFICULT_VELOCITY;
                 this.maxObstacles = Constants.DIFFICULT_POP;
+                this.afterBigPop = Constants.DIFFICULT_AFTER_BIG_POP;
+                this.stopBeforeBig = Constants.DIFFICULT_STOP_BEFORE_BIG;
+                this.beforeWarn = Constants.DIFFICULT_BEFORE_WARN;
                 break;
             default:
                 this.velocity = Constants.HARDCORE_VELOCITY;
                 this.velocity = Constants.HARDCORE_POP;
+                this.afterBigPop = Constants.DIFFICULT_AFTER_BIG_POP;
+                this.stopBeforeBig = Constants.DIFFICULT_STOP_BEFORE_BIG;
+                this.beforeWarn = Constants.DIFFICULT_BEFORE_WARN;
         }
         obstacles.clear();
+        nb_since_big = 0;
         launched = true;
         generateNextBig();
     }
@@ -126,11 +142,11 @@ public class Scene extends View{
     }
 
     private boolean smallPop() {
-        return nb_since_big >= 0 &&  stepToBiggy() > Constants.STOP_BEFORE_BIG;
+        return nb_since_big >= 0 &&  stepToBiggy() > stopBeforeBig;
     }
 
     private boolean warnForBiggy() {
-        return stepToBiggy() == Constants.BEFORE_WARN;
+        return stepToBiggy() == beforeWarn;
     }
 
     private int stepToBiggy() {
@@ -158,10 +174,8 @@ public class Scene extends View{
             MediaPlayer mpComming = MediaPlayer.create(getContext(), R.raw.incomming);
             mpComming.start();
         } else if(biggyPop()) {
-            MediaPlayer mp_pop = MediaPlayer.create(getContext(), R.raw.biggy);
-            mp_pop.start();
             id = R.drawable.blue_screen;
-            nb_since_big = - Constants.AFTER_BIG_POP;
+            nb_since_big = - afterBigPop;
             p = new Point(100, canvas.getHeight());
             generateNextBig();
             Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), id);
