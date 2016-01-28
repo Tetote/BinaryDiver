@@ -61,6 +61,8 @@ public class ConfigDialogFragment  extends DialogFragment{
 
                 jeu.setSex(radioGroupSexe.getCheckedRadioButtonId() == R.id.radioButtonHomme);
 
+                jeu.createPerso();
+
                 getDialog().dismiss();
             }
         });

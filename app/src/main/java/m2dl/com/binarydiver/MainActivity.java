@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Create empty game
-        jeu = new Jeu();
+        jeu = new Jeu(getApplicationContext());
 
         // Load highscore / lastscore
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
