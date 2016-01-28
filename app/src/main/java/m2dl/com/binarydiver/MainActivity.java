@@ -2,17 +2,18 @@ package m2dl.com.binarydiver;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 
 import m2dl.com.binarydiver.data.Jeu;
 import m2dl.com.binarydiver.fragment.ConfigDialogFragment;
+import m2dl.com.binarydiver.scene.Scene;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +22,17 @@ public class MainActivity extends AppCompatActivity {
     public static final String PREF_LAST_SCORE = "lastscore";
 
     private Jeu jeu;
+    private static final int TIME = 1000;
+    private Handler frame;
+    private Scene scene;
+    private Runnable frameUpdate = new Runnable() {
+        @Override
+        public void run() {
+            frame.removeCallbacks(frameUpdate);
+            scene.invalidate();
+            frame.postDelayed(frameUpdate,TIME);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +64,21 @@ public class MainActivity extends AppCompatActivity {
         ft.addToBackStack(null);
         DialogFragment newFragment = ConfigDialogFragment.newInstance();
         newFragment.show(ft, "dialog");
+        scene = (Scene) findViewById(R.id.scene);
+        frame = new Handler();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initCanvas();
+            }
+        }, 1000);
+    }
+
+    private void initCanvas() {
+        scene.init();
+        frame.removeCallbacks(frameUpdate);
+        frame.postDelayed(frameUpdate,TIME);
     }
 
     public Jeu getJeu() {
@@ -71,4 +98,5 @@ public class MainActivity extends AppCompatActivity {
 
         editor.commit();
     }
+
 }
