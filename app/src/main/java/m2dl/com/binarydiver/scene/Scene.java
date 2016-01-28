@@ -21,6 +21,7 @@ public class Scene extends View{
     private final static int DEFAULT_VELOCITY = 50;
     private final Random random = new Random();
     private int velocity;
+    private boolean launched = false;
 
 
     private Queue<Obstacle> obstacles = new LinkedList<>();
@@ -40,6 +41,8 @@ public class Scene extends View{
     }
     public void init(int velocity) {
         this.velocity = velocity;
+        obstacles.clear();
+        launched = true;
 
     }
 
@@ -69,11 +72,14 @@ public class Scene extends View{
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if(obstacles.size() < MAX_OBSTACLE && random.nextBoolean()) {
-            addObstacles(canvas);
+        if(launched) {
+            if(obstacles.size() < MAX_OBSTACLE && random.nextBoolean()) {
+                addObstacles(canvas);
+            }
+            update();
+            render(canvas);
         }
-        update();
-        render(canvas);
+
     }
 
     private void addObstacles(Canvas canvas) {
