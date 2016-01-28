@@ -8,6 +8,7 @@ import android.graphics.Rect;
 
 public class Obstacle {
 
+    public static int SIZE = 120;
     private Point position;
     private Rect bounds;
 
@@ -48,8 +49,8 @@ public class Obstacle {
     private void refreshBounds() {
         int top = position.y;
         int left = position.x;
-        int bottom = top + 40;
-        int right = left - 40;
+        int bottom = top + SIZE;
+        int right = left + SIZE;
         //bounds.set(top,left,bottom,right);
         bounds = new Rect(top,left,bottom,right);
     }
@@ -57,8 +58,8 @@ public class Obstacle {
     public void draw(Canvas canvas) {
         int top = position.y;
         int left = position.x;
-        int bottom = top + 40;
-        int right = left + 40;
+        int bottom = top + SIZE;
+        int right = left + SIZE;
         canvas.drawRect(left,top,right,bottom,paint);
     }
 }
