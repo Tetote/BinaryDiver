@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initCanvas() {
-        scene.init();
+        scene.init(jeu.getDifficulty());
         frame.removeCallbacks(frameUpdate);
         frame.postDelayed(frameUpdate,TIME);
     }

@@ -17,6 +17,7 @@ import java.util.Random;
 
 import m2dl.com.binarydiver.MainActivity;
 import m2dl.com.binarydiver.R;
+import m2dl.com.binarydiver.data.Difficulty;
 import m2dl.com.binarydiver.data.Obstacle;
 
 /**
@@ -24,9 +25,6 @@ import m2dl.com.binarydiver.data.Obstacle;
  */
 public class Scene extends View{
 
-    private final static int MAX_OBSTACLE = 10;
-    private final static int DEFAULT_VELOCITY = 30;
-    private static final int WARN_BIG = 15;
     private final Random random = new Random();
     private int velocity;
     private boolean launched = false;
@@ -36,6 +34,7 @@ public class Scene extends View{
 
     private Queue<Obstacle> obstacles = new LinkedList<>();
     private MainActivity activity;
+    private int maxObstacles;
 
     public Scene(Context context) {
         super(context);
@@ -47,16 +46,29 @@ public class Scene extends View{
 
     }
 
-    public void init() {
-        init(DEFAULT_VELOCITY);
-    }
-    public void init(int velocity) {
-        this.velocity = velocity;
+    public void init(Difficulty difficulty) {
+        switch (difficulty) {
+            case FACILE:
+                this.maxObstacles = Constants.EASY_POP;
+                this.velocity = Constants.EASY_VELOCITY;
+                break;
+            case NORMAL:
+                this.velocity = Constants.NORMAL_VELOCITY;
+                this.maxObstacles = Constants.NORMAL_POP;
+                break;
+            case DIFFICILE:
+                this.velocity = Constants.DIFFICULT_VELOCITY;
+                this.maxObstacles = Constants.DIFFICULT_POP;
+                break;
+            default:
+                this.velocity = Constants.HARDCORE_VELOCITY;
+                this.velocity = Constants.HARDCORE_POP;
+        }
         obstacles.clear();
         launched = true;
         generateNextBig();
-
     }
+
 
     private void generateNextBig() {
         next_big = random.nextInt(Constants.BIG_POP_IN_MIN) + Constants.POP_DIFF;
@@ -103,7 +115,7 @@ public class Scene extends View{
     @Override
     protected void onDraw(Canvas canvas) {
         if(launched) {
-            if(obstacles.size() < MAX_OBSTACLE && random.nextBoolean()) {
+            if(obstacles.size() < maxObstacles && random.nextBoolean()) {
                 addObstacles(canvas);
             }
             update();
@@ -118,7 +130,7 @@ public class Scene extends View{
     }
 
     private boolean warnForBiggy() {
-        return nb_since_big == Constants.BEFORE_WARN;
+        return stepToBiggy() == Constants.BEFORE_WARN;
     }
 
     private int stepToBiggy() {
@@ -149,7 +161,7 @@ public class Scene extends View{
             MediaPlayer mp_pop = MediaPlayer.create(getContext(), R.raw.biggy);
             mp_pop.start();
             id = R.drawable.blue_screen;
-            nb_since_big = Constants.AFTER_BIG_POP;
+            nb_since_big = - Constants.AFTER_BIG_POP;
             p = new Point(100, canvas.getHeight());
             generateNextBig();
             Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), id);
