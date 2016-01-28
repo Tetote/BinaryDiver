@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
 
+import m2dl.com.binarydiver.controls.DiveControl;
+
 public class Perso {
 
     private Point position;
@@ -11,8 +13,8 @@ public class Perso {
 
     private Bitmap bitmap;
 
-    public Perso(Point position, Bitmap bitmap) {
-        this.position = position;
+    public Perso(Bitmap bitmap) {
+        this.position = new Point(DiveControl.WIDTH/2 - bitmap.getWidth(), 100);
         this.bitmap = bitmap;
         this.bounds = new Rect();
         refreshBounds();

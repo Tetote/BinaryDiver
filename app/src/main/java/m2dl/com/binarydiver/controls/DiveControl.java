@@ -14,8 +14,8 @@ import m2dl.com.binarydiver.exceptions.UnsupportedMaterialException;
  */
 public class DiveControl implements SensorEventListener {
 
-    private static final int HEIGHT = 2560;
-    private static final int WIDTH = 1440;
+    public static final int HEIGHT = 2560;
+    public static final int WIDTH = 1440;
     private static final int FACTEUR_HORIZONTAL = 30;
     private static final int FACTEUR_VERTICAL = 30;
 

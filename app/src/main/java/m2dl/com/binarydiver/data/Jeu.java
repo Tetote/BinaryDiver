@@ -1,6 +1,16 @@
 package m2dl.com.binarydiver.data;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import m2dl.com.binarydiver.R;
+
 public class Jeu {
+
+    private Context context;
+
+    private Perso perso;
 
     private Difficulty difficulty;
 
@@ -13,7 +23,19 @@ public class Jeu {
      */
     private boolean sex;
 
-    public Jeu() {
+    public Jeu(Context context) {
+        this.context = context;
+    }
+
+    public Perso getPerso() {
+        return perso;
+    }
+
+    public void createPerso() {
+        int id = (sex) ? R.drawable.guy : R.drawable.girl;
+        Bitmap avatar = BitmapFactory.decodeResource(context.getResources(), id);
+
+        perso = new Perso(avatar);
     }
 
     public Difficulty getDifficulty() {
