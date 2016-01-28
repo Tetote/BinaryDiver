@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     public static int WIDTH;
 
     private Jeu jeu;
-    private static final int TIME = 100;
+    private static final int TIME = 50;
     private Handler frame;
     private Scene scene;
     private Runnable frameUpdate = new Runnable() {

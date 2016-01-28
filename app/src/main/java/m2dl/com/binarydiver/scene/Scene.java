@@ -1,6 +1,8 @@
 package m2dl.com.binarydiver.scene;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.util.AttributeSet;
@@ -11,6 +13,7 @@ import java.util.Queue;
 import java.util.Random;
 
 import m2dl.com.binarydiver.MainActivity;
+import m2dl.com.binarydiver.R;
 import m2dl.com.binarydiver.data.Obstacle;
 
 /**
@@ -19,7 +22,7 @@ import m2dl.com.binarydiver.data.Obstacle;
 public class Scene extends View{
 
     private final static int MAX_OBSTACLE = 10;
-    private final static int DEFAULT_VELOCITY = 50;
+    private final static int DEFAULT_VELOCITY = 30;
     private final Random random = new Random();
     private int velocity;
     private boolean launched = false;
@@ -97,19 +100,23 @@ public class Scene extends View{
 
     private void addObstacles(Canvas canvas) {
         Obstacle o;
+        int id;
+        Point p;
         if(nb_since_big >= next_big) {
-            o = Obstacle.getBig(canvas.getWidth(),canvas.getHeight());
+            id = R.drawable.blue_screen;
             nb_since_big = 0;
+            p = new Point(100, canvas.getHeight());
             generateNextBig();
         } else {
             int max = canvas.getWidth();
             int y = canvas.getHeight();
-            Point point = new Point(random.nextInt(max),y);
-            String b = random.nextBoolean() ? "0" : "1";
-            o = new Obstacle(point,b,velocity);
+            p = new Point(random.nextInt(max),y);
+            id = random.nextBoolean() ? R.drawable.zero_drawable : R.drawable.one_drawable;
+
             nb_since_big++;
         }
-        obstacles.add(o);
+        Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), id);
+        obstacles.add(new Obstacle(p,velocity,bitmap));
     }
 
     public void setActivity(MainActivity activity) {

@@ -51,7 +51,7 @@ public class Perso {
     // TODO: check hitbox
     private void refreshBounds() {
         bounds.set(position.x, position.y,
-                bitmap.getWidth(), bitmap.getHeight());
+                position.x + bitmap.getWidth(), position.y + bitmap.getHeight());
     }
 
     public void drawPerso(Canvas canvas) {
