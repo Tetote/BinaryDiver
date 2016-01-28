@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 
+import m2dl.com.binarydiver.MainActivity;
 import m2dl.com.binarydiver.data.Obstacle;
 
 /**
@@ -25,6 +26,7 @@ public class Scene extends View{
 
 
     private Queue<Obstacle> obstacles = new LinkedList<>();
+    private MainActivity activity;
 
     public Scene(Context context) {
         super(context);
@@ -64,7 +66,9 @@ public class Scene extends View{
     }
 
     public void render(Canvas canvas) {
-        //TODO: perso.draw(canvas);
+
+        activity.getJeu().getPerso().drawPerso(canvas);
+
         for (Obstacle obstacle : obstacles) {
             obstacle.draw(canvas);
         }
@@ -93,4 +97,7 @@ public class Scene extends View{
 
     }
 
+    public void setActivity(MainActivity activity) {
+        this.activity = activity;
+    }
 }

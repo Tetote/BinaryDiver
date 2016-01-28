@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         DialogFragment newFragment = ConfigDialogFragment.newInstance();
         newFragment.show(ft, "dialog");
         scene = (Scene) findViewById(R.id.scene);
+        scene.setActivity(this);
         frame = new Handler();
     }
 
