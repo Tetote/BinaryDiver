@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import m2dl.com.binarydiver.data.Jeu;
 import m2dl.com.binarydiver.fragment.ConfigDialogFragment;
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
         public void run() {
             frame.removeCallbacks(frameUpdate);
 
+            updateScore();
+
             if (scene.isCollision()) {
                 gameover();
             } else {
@@ -43,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+
+    private TextView tvScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
 
         Log.i("TAILLE", "Display width in px is " + metrics.widthPixels);
         Log.i("TAILLE", "Display height in px is " + metrics.heightPixels);
+
+        tvScore = (TextView) findViewById(R.id.textViewScore);
 
         // Create empty game
         jeu = new Jeu(getApplicationContext());
@@ -132,5 +139,9 @@ public class MainActivity extends AppCompatActivity {
                 initCanvas();
             }
         }, 1000);
+    }
+
+    private void updateScore() {
+        tvScore.setText("Score : " + jeu.getCurrentScore());
     }
 }

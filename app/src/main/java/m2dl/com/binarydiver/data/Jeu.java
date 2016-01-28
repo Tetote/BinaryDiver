@@ -84,4 +84,9 @@ public class Jeu {
     public int getScore() {
         return (int) (stopTime - startTime);
     }
+
+    public int getCurrentScore() {
+        long currentTime = System.currentTimeMillis();
+        return (int) (currentTime - startTime);
+    }
 }

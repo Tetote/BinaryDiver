@@ -20,4 +20,16 @@
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/refresh" />
 
+    <TextView
+        android:id="@+id/textViewScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Score : "
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_gravity="top|right"
+        />
+
 </android.support.design.widget.CoordinatorLayout>
