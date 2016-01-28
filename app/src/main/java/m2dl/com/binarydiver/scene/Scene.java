@@ -26,11 +26,10 @@ public class Scene extends View{
 
     private final static int MAX_OBSTACLE = 10;
     private final static int DEFAULT_VELOCITY = 30;
+    private static final int WARN_BIG = 15;
     private final Random random = new Random();
     private int velocity;
     private boolean launched = false;
-    private final static int BIG_MIN = 75;
-    private final static int BIG_DIFF = 50;
     private int nb_since_big = 0;
     private int next_big;
 
@@ -60,7 +59,7 @@ public class Scene extends View{
     }
 
     private void generateNextBig() {
-        next_big = random.nextInt(BIG_MIN) + BIG_DIFF;
+        next_big = random.nextInt(Constants.BIG_POP_IN_MIN) + Constants.POP_DIFF;
     }
 
     public void update() {
@@ -114,27 +113,50 @@ public class Scene extends View{
 
     }
 
+    private boolean smallPop() {
+        return nb_since_big >= 0 &&  stepToBiggy() > Constants.STOP_BEFORE_BIG;
+    }
+
+    private boolean warnForBiggy() {
+        return nb_since_big == Constants.BEFORE_WARN;
+    }
+
+    private int stepToBiggy() {
+        return next_big - nb_since_big;
+    }
+
+    private boolean biggyPop() {
+        return next_big == nb_since_big;
+    }
+
     private void addObstacles(Canvas canvas) {
-        Obstacle o;
         int id;
         Point p;
-        if(nb_since_big >= next_big) {
-            MediaPlayer mp = MediaPlayer.create(getContext(),R.raw.biggy);
-            mp.start();
-            id = R.drawable.blue_screen;
-            nb_since_big = 0;
-            p = new Point(100, canvas.getHeight());
-            generateNextBig();
-        } else {
+
+        if(smallPop() && randomPop()) {
+
             int max = canvas.getWidth();
             int y = canvas.getHeight();
             p = new Point(random.nextInt(max),y);
             id = random.nextBoolean() ? R.drawable.zero_drawable : R.drawable.one_drawable;
 
-            nb_since_big++;
+            Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), id);
+            obstacles.add(new Obstacle(p,velocity,bitmap));
+        } else if(warnForBiggy()) {
+            MediaPlayer mpComming = MediaPlayer.create(getContext(), R.raw.incomming);
+            mpComming.start();
+        } else if(biggyPop()) {
+            MediaPlayer mp_pop = MediaPlayer.create(getContext(), R.raw.biggy);
+            mp_pop.start();
+            id = R.drawable.blue_screen;
+            nb_since_big = Constants.AFTER_BIG_POP;
+            p = new Point(100, canvas.getHeight());
+            generateNextBig();
+            Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), id);
+            obstacles.add(new Obstacle(p, velocity, bitmap));
         }
-        Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), id);
-        obstacles.add(new Obstacle(p,velocity,bitmap));
+        nb_since_big++;
+
     }
 
     public void setActivity(MainActivity activity) {
@@ -148,5 +170,9 @@ public class Scene extends View{
             }
         }
         return false;
+    }
+
+    public boolean randomPop() {
+        return true;
     }
 }
