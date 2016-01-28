@@ -123,7 +123,7 @@ public class Scene extends View{
         int posX = 0;
         for (int i = 0; i <  nbHeart; i++) {
             canvas.drawBitmap(bitmap, posX, 0, null);
-            posX += 60;
+            posX += 90;
         }
 
     }
@@ -135,7 +135,10 @@ public class Scene extends View{
                 addObstacles(canvas);
             }
             if(activity.getJeu().getPerso().getNbLife() < 4) {
-                addHearth(canvas);
+                int prob = random.nextInt(Constants.PROB_HEARTH);
+                if(prob == Constants.PROB_HEARTH -1) {
+                    addHearth(canvas);
+                }
             }
             update();
             drawHearts(canvas);
@@ -151,7 +154,7 @@ public class Scene extends View{
         int id = R.drawable.heart;
 
         Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), id);
-        obstacles.add(new Obstacle(p,velocity,bitmap));
+        obstacles.add(new Hearth(p,velocity,bitmap));
     }
 
     private boolean smallPop() {

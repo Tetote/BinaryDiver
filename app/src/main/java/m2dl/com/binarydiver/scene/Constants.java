@@ -39,4 +39,6 @@ public class Constants {
     public static final int NORMAL_LIFE = 3;
     public static final int DIFFICULT_LIFE = 2;
     public static final int HARDCORE_LIFE = 1;
+
+    public static final int PROB_HEARTH = 50;
 }
