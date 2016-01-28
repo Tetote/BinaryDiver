@@ -108,7 +108,7 @@ public class Scene extends View{
                 addObstacles(canvas);
             }
             update();
-            drawHitbox(canvas);
+            //drawHitbox(canvas);
             render(canvas);
         }
 
