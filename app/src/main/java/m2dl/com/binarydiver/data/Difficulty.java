@@ -3,7 +3,8 @@ package m2dl.com.binarydiver.data;
 public enum Difficulty {
     FACILE("Facile"),
     NORMAL("Normal"),
-    DIFFICILE("Difficile");
+    DIFFICILE("Difficile"),
+    HARDCORE("Hardcore");
 
     private String name;
 

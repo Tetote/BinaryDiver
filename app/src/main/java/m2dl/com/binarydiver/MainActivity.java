@@ -20,6 +20,8 @@ import m2dl.com.binarydiver.scene.Scene;
 
 public class MainActivity extends AppCompatActivity {
 
+
+
     public static final String PREFS_NAME = "BinaryDiver";
     public static final String PREF_HIGH_SCORE = "highscore";
     public static final String PREF_LAST_SCORE = "lastscore";

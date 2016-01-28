@@ -48,6 +48,14 @@
                 android:text="Difficile"
                 android:id="@+id/radioButtonDifficile"
                 android:checked="false" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HARDCORE"
+                android:id="@+id/radioButtonHardcore"
+                android:checked="false"
+                android:visibility="gone" />
         </RadioGroup>
     </LinearLayout>
 
