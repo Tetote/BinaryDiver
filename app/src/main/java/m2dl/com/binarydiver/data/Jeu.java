@@ -32,7 +32,7 @@ public class Jeu {
     }
 
     public void createPerso() {
-        int id = (sex) ? R.drawable.guy : R.drawable.girl;
+        int id = (sex) ? R.drawable.guy_resized : R.drawable.girl_resized;
         Bitmap avatar = BitmapFactory.decodeResource(context.getResources(), id);
 
         perso = new Perso(avatar);
