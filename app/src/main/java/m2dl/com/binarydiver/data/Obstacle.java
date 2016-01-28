@@ -11,13 +11,14 @@ public class Obstacle {
     private String binary;
     private boolean isBig;
     private int vitesse;
+    private boolean hasMoved;
 
     public Obstacle(Point position, String binary, int vitesse) {
         this.position = position;
         this.binary = binary;
         this.vitesse = vitesse;
         this.bounds = new Rect();
-        refreshBounds();
+        hasMoved = true;
     }
 
     public Point getPosition() {
@@ -26,10 +27,13 @@ public class Obstacle {
 
     public void move() {
         this.position.y += vitesse;
-        refreshBounds();
+        hasMoved = true;
     }
 
     public Rect getBounds() {
+        if(hasMoved) {
+            refreshBounds();
+        }
         return bounds;
     }
 
@@ -43,6 +47,7 @@ public class Obstacle {
 
     // TODO: calc hitbox
     private void refreshBounds() {
+        hasMoved = false;
         //bounds.set(position.x, position.y,
         //        right, bottom);
     }
