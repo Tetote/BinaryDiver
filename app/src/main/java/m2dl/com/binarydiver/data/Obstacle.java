@@ -8,7 +8,7 @@ import android.graphics.Rect;
 
 public class Obstacle {
 
-    public static int SIZE = 120;
+    public static float SIZE = 60f;
     private Point position;
     private Rect bounds;
 
@@ -16,12 +16,16 @@ public class Obstacle {
     private boolean isBig;
     private int vitesse;
     private static Paint paint = new Paint(Color.BLACK);
+    static {
+        paint.setTextSize(SIZE);
+    }
+
 
     public Obstacle(Point position, String binary, int vitesse) {
         this.position = position;
         this.binary = binary;
         this.vitesse = vitesse;
-        this.bounds = new Rect();
+        this.bounds = initBound();
     }
 
     public Point getPosition() {
@@ -30,7 +34,7 @@ public class Obstacle {
 
     public void move() {
         this.position.y -= vitesse;
-        refreshBounds();
+        bounds.offset(0,-vitesse);
     }
 
     public Rect getBounds() {
@@ -45,21 +49,17 @@ public class Obstacle {
         return isBig;
     }
 
-    // TODO: calc hitbox
-    private void refreshBounds() {
-        int top = position.y;
-        int left = position.x;
-        int bottom = top + SIZE;
-        int right = left + SIZE;
-        //bounds.set(top,left,bottom,right);
-        bounds = new Rect(top,left,bottom,right);
+    private Rect initBound() {
+        Rect rect = new Rect();
+        paint.getTextBounds(binary,0,binary.length(),rect);
+        rect.offsetTo(position.x, position.y);
+        return rect;
     }
 
     public void draw(Canvas canvas) {
         int top = position.y;
         int left = position.x;
-        int bottom = top + SIZE;
-        int right = left + SIZE;
-        canvas.drawRect(left,top,right,bottom,paint);
+
+        canvas.drawText(binary,(float)left,(float)top, paint);
     }
 }

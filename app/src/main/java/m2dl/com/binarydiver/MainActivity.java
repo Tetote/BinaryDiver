@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String PREF_LAST_SCORE = "lastscore";
 
     private Jeu jeu;
-    private static final int TIME = 1000;
+    private static final int TIME = 100;
     private Handler frame;
     private Scene scene;
     private Runnable frameUpdate = new Runnable() {
@@ -66,13 +66,6 @@ public class MainActivity extends AppCompatActivity {
         newFragment.show(ft, "dialog");
         scene = (Scene) findViewById(R.id.scene);
         frame = new Handler();
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                initCanvas();
-            }
-        }, 1000);
     }
 
     private void initCanvas() {
@@ -99,4 +92,13 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
     }
 
+    public void launch() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initCanvas();
+            }
+        }, 1000);
+    }
 }

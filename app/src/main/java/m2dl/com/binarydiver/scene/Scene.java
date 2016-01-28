@@ -2,14 +2,13 @@ package m2dl.com.binarydiver.scene;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.View;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 
 import m2dl.com.binarydiver.data.Obstacle;
 
@@ -18,8 +17,10 @@ import m2dl.com.binarydiver.data.Obstacle;
  */
 public class Scene extends View{
 
-    private static final String TAG = Scene.class.getSimpleName();
-    private final Paint paint = new Paint(Color.BLACK);
+    private final static int MAX_OBSTACLE = 10;
+    private final static int DEFAULT_VELOCITY = 50;
+    private final Random random = new Random();
+    private int velocity;
 
 
     private Queue<Obstacle> obstacles = new LinkedList<>();
@@ -35,11 +36,10 @@ public class Scene extends View{
     }
 
     public void init() {
-        obstacles.add(new Obstacle(new Point(10,100),"aA",10));
-        obstacles.add(new Obstacle(new Point(30,200),"aA",10));
-        obstacles.add(new Obstacle(new Point(40,300),"aA",10));
-        obstacles.add(new Obstacle(new Point(50, 400), "aA", 10));
-        obstacles.add(new Obstacle(new Point(60, 500), "aA", 10));
+        init(DEFAULT_VELOCITY);
+    }
+    public void init(int velocity) {
+        this.velocity = velocity;
 
     }
 
@@ -69,8 +69,22 @@ public class Scene extends View{
 
     @Override
     protected void onDraw(Canvas canvas) {
+        if(obstacles.size() < MAX_OBSTACLE && random.nextBoolean()) {
+            addObstacles(canvas);
+        }
         update();
         render(canvas);
+    }
+
+    private void addObstacles(Canvas canvas) {
+        Random random = new Random();
+        int max = canvas.getWidth();
+        int y = canvas.getHeight();
+        Point point = new Point(random.nextInt(max),y);
+        String b = random.nextBoolean() ? "0" : "1";
+        obstacles.add(new Obstacle(point,b,velocity));
+
+
     }
 
 }

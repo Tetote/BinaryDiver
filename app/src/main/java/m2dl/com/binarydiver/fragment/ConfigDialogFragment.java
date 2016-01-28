@@ -1,8 +1,7 @@
 package m2dl.com.binarydiver.fragment;
 
-import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +63,8 @@ public class ConfigDialogFragment  extends DialogFragment{
                 jeu.createPerso();
 
                 getDialog().dismiss();
+                ((MainActivity) getActivity()).launch();
+
             }
         });
 
