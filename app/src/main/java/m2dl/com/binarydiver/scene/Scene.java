@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.util.AttributeSet;
@@ -87,6 +89,18 @@ public class Scene extends View{
         }
     }
 
+    private void drawHitbox(Canvas canvas) {
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+        for (Obstacle obstacle : obstacles) {
+            canvas.drawRect(obstacle.getBounds(), paint);
+        }
+
+        paint.setColor(Color.BLUE);
+
+        canvas.drawRect(activity.getJeu().getPerso().getBounds(), paint);
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         if(launched) {
@@ -94,6 +108,7 @@ public class Scene extends View{
                 addObstacles(canvas);
             }
             update();
+            drawHitbox(canvas);
             render(canvas);
         }
 
@@ -124,5 +139,14 @@ public class Scene extends View{
 
     public void setActivity(MainActivity activity) {
         this.activity = activity;
+    }
+
+    public boolean isCollision() {
+        for (Obstacle obstacle : obstacles) {
+            if (obstacle.getBounds().intersect(activity.getJeu().getPerso().getBounds())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
