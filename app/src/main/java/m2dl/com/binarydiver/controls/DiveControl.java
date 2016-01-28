@@ -16,7 +16,7 @@ import m2dl.com.binarydiver.exceptions.UnsupportedMaterialException;
  */
 public class DiveControl implements SensorEventListener {
 
-    private static final int FACTEUR_HORIZONTAL = 30;
+    private static final int FACTEUR_HORIZONTAL = 5;
     private static final int FACTEUR_VERTICAL = 30;
 
     private SensorManager sensorManager;
@@ -54,7 +54,7 @@ public class DiveControl implements SensorEventListener {
     }
 
     private void handleSensorValues(float x, float y, float z) {
-        monPerso.setPosition(new Point(handleX(x), handleY(y)));
+        monPerso.setPosition(new Point(handleX(x), monPerso.getPosition().y));
     }
 
     private int handleX(float x) {
