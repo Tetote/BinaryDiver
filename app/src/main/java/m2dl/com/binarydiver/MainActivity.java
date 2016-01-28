@@ -9,9 +9,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import m2dl.com.binarydiver.data.Jeu;
 import m2dl.com.binarydiver.fragment.ConfigDialogFragment;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Jeu jeu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Create empty game
+        jeu = new Jeu();
+
+        // Load highscore / lastscore
+        // TODO: load highscore / lastscore
+
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
         if (prev != null) {
@@ -34,5 +43,9 @@ public class MainActivity extends AppCompatActivity {
         ft.addToBackStack(null);
         DialogFragment newFragment = ConfigDialogFragment.newInstance();
         newFragment.show(ft, "dialog");
+    }
+
+    public Jeu getJeu() {
+        return jeu;
     }
 }
