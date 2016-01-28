@@ -23,6 +23,9 @@ public class Jeu {
      */
     private boolean sex;
 
+    private long startTime;
+    private long stopTime;
+
     public Jeu(Context context) {
         this.context = context;
     }
@@ -68,5 +71,17 @@ public class Jeu {
 
     public boolean isMan() {
         return sex;
+    }
+
+    public void startGame() {
+        startTime = System.currentTimeMillis();
+    }
+
+    public void stopGame() {
+        stopTime = System.currentTimeMillis();
+    }
+
+    public int getScore() {
+        return (int) (stopTime - startTime);
     }
 }

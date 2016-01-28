@@ -83,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void gameover() {
+        jeu.stopGame();
+        jeu.setLastscore(jeu.getScore());
+        storeScore();
         showDialog();
     }
 
@@ -107,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         return jeu;
     }
 
-    public void setScore() {
+    public void storeScore() {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
 

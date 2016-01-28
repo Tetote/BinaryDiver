@@ -91,6 +91,8 @@ public class ConfigDialogFragment  extends DialogFragment{
 
                 jeu.createPerso();
 
+                jeu.startGame();
+
                 try {
                     DiveControl diveControl = new DiveControl(getContext(), jeu.getPerso());
                 } catch (UnsupportedMaterialException e) {
