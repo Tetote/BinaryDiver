@@ -5,87 +5,81 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
 
 import m2dl.com.binarydiver.exceptions.UnsupportedMaterialException;
 
 /**
  * Created by kelto on 28/01/16.
  */
-public class DiveControl {
+public class DiveControl implements SensorEventListener {
 
-    private static final float DEFAULT_THRESHOLD = 0.5f;
+    private static final int HEIGHT = 2560;
+    private static final int WIDTH = 1440;
+    private static final int FACTEUR_HORIZONTAL = 30;
+    private static final int FACTEUR_VERTICAL = 30;
 
     private SensorManager sensorManager;
-    private DiveControl.Callback callback;
-    private float threshold;
+    private Sensor accelerometer;
 
-    public DiveControl(Context context, DiveControl.Callback cb) throws UnsupportedMaterialException {
-        callback = cb;
+    public DiveControl(Context context) throws UnsupportedMaterialException {
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
 
-        Sensor accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         if(accelerometer == null) {
             throw new UnsupportedMaterialException("The system does not provide the necessary material");
         }
-        sensorManager.registerListener(listener,accelerometer,SensorManager.SENSOR_DELAY_GAME);
-
-        threshold = DEFAULT_THRESHOLD;
+        sensorManager.registerListener(this,accelerometer,SensorManager.SENSOR_DELAY_GAME);
     }
-
-    public DiveControl(Context context, DiveControl.Callback cb, float threshold) throws UnsupportedMaterialException {
-        this(context,cb);
-        this.threshold = threshold;
-    }
-
-    private final SensorEventListener listener = new SensorEventListener() {
-        @Override
-        public void onSensorChanged(SensorEvent event) {
-            if(event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-                float x = event.values[0];
-                float y = event.values[0];
-                float z = event.values[0];
-
-                handleSensorValues(x,y,z);
-            }
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-        }
-    };
-
 
     private void handleSensorValues(float x, float y, float z) {
-        // TODO: check this algorithm taken on android documentation
-        /*
-        final float alpha = 0.8f;
-        float[] gravity = new float[3];
-        float[] linear_acceleration = new float[3];
-        // Isolate the force of gravity with the low-pass filter.
-        gravity[0] = alpha * gravity[0] + (1 - alpha) * x;
-        gravity[1] = alpha * gravity[1] + (1 - alpha) * y;
-        gravity[2] = alpha * gravity[2] + (1 - alpha) * z;
+        handleX(x);
+        handleY(y);
+    }
 
-        // Remove the gravity contribution with the high-pass filter.
-        linear_acceleration[0] = x - gravity[0];
-        linear_acceleration[1] = y - gravity[1];
-        linear_acceleration[2] = z - gravity[2];
+    private void handleX(float x) {
+        /*posXFloat += -x * FACTEUR_HORIZONTAL;
+        if (posXFloat > WIDTH) { //TODO: rajouter width - width du perso
+            posXFloat = WIDTH;
+        }
+        if (posXFloat < 0) {
+            posXFloat = 0;
+        }
+        int posX = (int)posXFloat;*/
+    }
 
-        */
-        if(Math.abs(x) > threshold) {
-            if(x > 0) {
-                callback.onRight(x);
-            } else {
-                callback.onLeft(x);
-            }
+    private void handleY(float y) {
+       /* posYFloat += -y * FACTEUR_VERTICAL;
+        if (posYFloat > HEIGHT) { //TODO: rajouter height - height du perso
+            posYFloat = HEIGHT;
+        }
+        if (posYFloat < 0) {
+            posYFloat = 0;
+        }
+        int posY = (int)posYFloat;*/
+    }
+
+    public void activateAccelerometer() {
+        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
+    }
+
+    public void desactivateAccelerometer() {
+        sensorManager.unregisterListener(this);
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if(event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            float x = event.values[0];
+            float y = event.values[0];
+            float z = event.values[0];
+
+            handleSensorValues(x,y,z);
         }
     }
 
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
-
-    public interface Callback {
-        void onRight(float value);
-        void onLeft(float value);
     }
 }
