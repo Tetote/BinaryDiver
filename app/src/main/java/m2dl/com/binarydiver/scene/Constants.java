@@ -34,4 +34,9 @@ public class Constants {
     public static final int NORMAL_POP = 20;
     public static final int DIFFICULT_POP = 35;
     public static final int HARDCORE_POP = 50;
+
+    public static final int EASY_LIFE = 4;
+    public static final int NORMAL_LIFE = 3;
+    public static final int DIFFICULT_LIFE = 2;
+    public static final int HARDCORE_LIFE = 1;
 }

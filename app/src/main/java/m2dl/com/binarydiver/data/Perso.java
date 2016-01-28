@@ -11,13 +11,15 @@ public class Perso {
 
     private Point position;
     private Rect bounds;
+    private int nbLife;
 
     private Bitmap bitmap;
 
-    public Perso(Bitmap bitmap) {
+    public Perso(Bitmap bitmap, int life) {
         this.position = new Point(MainActivity.WIDTH/2 - bitmap.getWidth(), 100);
         this.bitmap = bitmap;
         this.bounds = new Rect();
+        nbLife = life;
         refreshBounds();
     }
 
@@ -28,6 +30,18 @@ public class Perso {
     public void setPosition(Point position) {
         this.position.set(position.x, position.y);
         refreshBounds();
+    }
+
+    public int getNbLife() {
+        return nbLife;
+    }
+
+    public void die() {
+        this.nbLife--;
+    }
+
+    public void addLife() {
+        this.nbLife++;
     }
 
     public void setX(int x) {
@@ -55,6 +69,6 @@ public class Perso {
     }
 
     public void drawPerso(Canvas canvas) {
-        canvas.drawBitmap(this.bitmap, (float)this.getPosition().x, (float)this.getPosition().y, null);
+        canvas.drawBitmap(this.bitmap, (float) this.getPosition().x, (float) this.getPosition().y, null);
     }
 }

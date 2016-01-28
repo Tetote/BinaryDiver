@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import m2dl.com.binarydiver.R;
+import m2dl.com.binarydiver.scene.Constants;
 
 public class Jeu {
 
@@ -37,8 +38,22 @@ public class Jeu {
     public void createPerso() {
         int id = (sex) ? R.drawable.guy_resized : R.drawable.girl_resized;
         Bitmap avatar = BitmapFactory.decodeResource(context.getResources(), id);
-
-        perso = new Perso(avatar);
+        int life = 4;
+        switch(difficulty) {
+            case FACILE:
+                life = Constants.EASY_LIFE;
+                break;
+            case NORMAL:
+                life = Constants.NORMAL_LIFE;
+                break;
+            case DIFFICILE:
+                life = Constants.DIFFICULT_LIFE;
+                break;
+            case HARDCORE:
+                life = Constants.HARDCORE_LIFE;
+                break;
+        }
+        perso = new Perso(avatar,life);
     }
 
     public Difficulty getDifficulty() {

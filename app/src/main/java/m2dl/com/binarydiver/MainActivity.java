@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -41,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
             updateScore();
 
             if (scene.isCollision()) {
+                jeu.getPerso().die();
+            }
+            if(jeu.getPerso().getNbLife() == 0) {
                 gameover();
             } else {
                 scene.invalidate();

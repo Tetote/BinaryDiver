@@ -12,7 +12,6 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Random;
 
 import m2dl.com.binarydiver.MainActivity;
@@ -32,7 +31,7 @@ public class Scene extends View{
     private int next_big;
 
 
-    private Queue<Obstacle> obstacles = new LinkedList<>();
+    private LinkedList<Obstacle> obstacles = new LinkedList<>();
     private MainActivity activity;
     private int maxObstacles;
     private int afterBigPop;
@@ -192,6 +191,7 @@ public class Scene extends View{
     public boolean isCollision() {
         for (Obstacle obstacle : obstacles) {
             if (obstacle.getBounds().intersect(activity.getJeu().getPerso().getBounds())) {
+                obstacles.remove(obstacle);
                 return true;
             }
         }
