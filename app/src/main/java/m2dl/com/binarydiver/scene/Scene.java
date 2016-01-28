@@ -72,9 +72,9 @@ public class Scene extends View{
                 this.stopBeforeBig = Constants.DIFFICULT_STOP_BEFORE_BIG;
                 this.beforeWarn = Constants.DIFFICULT_BEFORE_WARN;
                 break;
-            default:
+            case HARDCORE:
                 this.velocity = Constants.HARDCORE_VELOCITY;
-                this.velocity = Constants.HARDCORE_POP;
+                this.maxObstacles = Constants.HARDCORE_POP;
                 this.afterBigPop = Constants.DIFFICULT_AFTER_BIG_POP;
                 this.stopBeforeBig = Constants.DIFFICULT_STOP_BEFORE_BIG;
                 this.beforeWarn = Constants.DIFFICULT_BEFORE_WARN;
