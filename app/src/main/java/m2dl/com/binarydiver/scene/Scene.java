@@ -127,6 +127,20 @@ public class Scene extends View{
         canvas.drawRect(activity.getJeu().getPerso().getBounds(), paint);
     }
 
+    private void drawHearts(Canvas canvas) {
+        int nbHeart = 3;
+        int id = R.drawable.heart;
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), id);
+        int posX = 0;
+        for (int i = 0; i <  nbHeart; i++) {
+            canvas.drawBitmap(bitmap, posX, 0, null);
+            posX += 60;
+        }
+        //int i = activity.getJeu().getPerso().getNbLife();
+
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         if(launched) {
