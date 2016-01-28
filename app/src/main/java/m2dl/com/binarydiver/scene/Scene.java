@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.media.MediaPlayer;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -103,6 +104,8 @@ public class Scene extends View{
         int id;
         Point p;
         if(nb_since_big >= next_big) {
+            MediaPlayer mp = MediaPlayer.create(getContext(),R.raw.biggy);
+            mp.start();
             id = R.drawable.blue_screen;
             nb_since_big = 0;
             p = new Point(100, canvas.getHeight());
