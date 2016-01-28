@@ -23,6 +23,10 @@ public class Scene extends View{
     private final Random random = new Random();
     private int velocity;
     private boolean launched = false;
+    private final static int BIG_MIN = 75;
+    private final static int BIG_DIFF = 50;
+    private int nb_since_big = 0;
+    private int next_big;
 
 
     private Queue<Obstacle> obstacles = new LinkedList<>();
@@ -45,7 +49,12 @@ public class Scene extends View{
         this.velocity = velocity;
         obstacles.clear();
         launched = true;
+        generateNextBig();
 
+    }
+
+    private void generateNextBig() {
+        next_big = random.nextInt(BIG_MIN) + BIG_DIFF;
     }
 
     public void update() {
@@ -87,14 +96,20 @@ public class Scene extends View{
     }
 
     private void addObstacles(Canvas canvas) {
-        Random random = new Random();
-        int max = canvas.getWidth();
-        int y = canvas.getHeight();
-        Point point = new Point(random.nextInt(max),y);
-        String b = random.nextBoolean() ? "0" : "1";
-        obstacles.add(new Obstacle(point,b,velocity));
-
-
+        Obstacle o;
+        if(nb_since_big >= next_big) {
+            o = Obstacle.getBig(canvas.getWidth(),canvas.getHeight());
+            nb_since_big = 0;
+            generateNextBig();
+        } else {
+            int max = canvas.getWidth();
+            int y = canvas.getHeight();
+            Point point = new Point(random.nextInt(max),y);
+            String b = random.nextBoolean() ? "0" : "1";
+            o = new Obstacle(point,b,velocity);
+            nb_since_big++;
+        }
+        obstacles.add(o);
     }
 
     public void setActivity(MainActivity activity) {
