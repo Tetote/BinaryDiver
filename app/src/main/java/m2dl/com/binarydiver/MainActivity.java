@@ -34,8 +34,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
             frame.removeCallbacks(frameUpdate);
-            scene.invalidate();
-            frame.postDelayed(frameUpdate,TIME);
+
+            if (scene.isCollision()) {
+                gameover();
+            } else {
+                scene.invalidate();
+                frame.postDelayed(frameUpdate,TIME);
+            }
         }
     };
 
@@ -70,6 +75,18 @@ public class MainActivity extends AppCompatActivity {
         jeu.setHighscore(settings.getInt(PREF_HIGH_SCORE, 0));
         jeu.setLastscore(settings.getInt(PREF_LAST_SCORE, 0));
 
+        showDialog();
+
+        scene = (Scene) findViewById(R.id.scene);
+        scene.setActivity(this);
+        frame = new Handler();
+    }
+
+    private void gameover() {
+        showDialog();
+    }
+
+    private void showDialog() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
         if (prev != null) {
@@ -78,9 +95,6 @@ public class MainActivity extends AppCompatActivity {
         ft.addToBackStack(null);
         DialogFragment newFragment = ConfigDialogFragment.newInstance();
         newFragment.show(ft, "dialog");
-        scene = (Scene) findViewById(R.id.scene);
-        scene.setActivity(this);
-        frame = new Handler();
     }
 
     private void initCanvas() {
