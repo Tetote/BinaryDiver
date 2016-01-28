@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             if (scene.isCollision()) {
                 jeu.getPerso().die();
             }
-            if(jeu.getPerso().getNbLife() == 0) {
+            if(jeu.getPerso().getNbLife() <= 0) {
                 gameover();
             } else {
                 scene.invalidate();
