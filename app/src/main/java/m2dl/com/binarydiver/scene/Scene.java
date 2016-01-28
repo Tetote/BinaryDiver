@@ -61,7 +61,7 @@ public class Scene extends View{
     }
 
     public void render(Canvas canvas) {
-
+        //TODO: perso.draw(canvas);
         for (Obstacle obstacle : obstacles) {
             obstacle.draw(canvas);
         }

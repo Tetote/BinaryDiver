@@ -1,12 +1,14 @@
 package m2dl.com.binarydiver.controls;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
 
+import m2dl.com.binarydiver.data.Perso;
 import m2dl.com.binarydiver.exceptions.UnsupportedMaterialException;
 
 /**
@@ -21,9 +23,11 @@ public class DiveControl implements SensorEventListener {
 
     private SensorManager sensorManager;
     private Sensor accelerometer;
+    private Perso monPerso;
 
-    public DiveControl(Context context) throws UnsupportedMaterialException {
+    public DiveControl(Context context, Perso monPerso) throws UnsupportedMaterialException {
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        this.monPerso = monPerso;
 
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         if(accelerometer == null) {
@@ -33,30 +37,29 @@ public class DiveControl implements SensorEventListener {
     }
 
     private void handleSensorValues(float x, float y, float z) {
-        handleX(x);
-        handleY(y);
+        monPerso.setPosition(new Point(handleX(x), handleY(y)));
     }
 
-    private void handleX(float x) {
-        /*posXFloat += -x * FACTEUR_HORIZONTAL;
+    private int handleX(float x) {
+        float posXFloat = monPerso.getPosition().x -x * FACTEUR_HORIZONTAL;
         if (posXFloat > WIDTH) { //TODO: rajouter width - width du perso
             posXFloat = WIDTH;
         }
         if (posXFloat < 0) {
             posXFloat = 0;
         }
-        int posX = (int)posXFloat;*/
+        return (int)posXFloat;
     }
 
-    private void handleY(float y) {
-       /* posYFloat += -y * FACTEUR_VERTICAL;
+    private int handleY(float y) {
+        float posYFloat = monPerso.getPosition().y - y * FACTEUR_VERTICAL;
         if (posYFloat > HEIGHT) { //TODO: rajouter height - height du perso
             posYFloat = HEIGHT;
         }
         if (posYFloat < 0) {
             posYFloat = 0;
         }
-        int posY = (int)posYFloat;*/
+        return (int)posYFloat;
     }
 
     public void activateAccelerometer() {
