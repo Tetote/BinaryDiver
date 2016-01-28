@@ -4,8 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.util.AttributeSet;
@@ -17,6 +15,7 @@ import java.util.Random;
 import m2dl.com.binarydiver.MainActivity;
 import m2dl.com.binarydiver.R;
 import m2dl.com.binarydiver.data.Difficulty;
+import m2dl.com.binarydiver.data.Hearth;
 import m2dl.com.binarydiver.data.Obstacle;
 
 /**
@@ -115,20 +114,9 @@ public class Scene extends View{
         }
     }
 
-    private void drawHitbox(Canvas canvas) {
-        Paint paint = new Paint();
-        paint.setColor(Color.RED);
-        for (Obstacle obstacle : obstacles) {
-            canvas.drawRect(obstacle.getBounds(), paint);
-        }
-
-        paint.setColor(Color.BLUE);
-
-        canvas.drawRect(activity.getJeu().getPerso().getBounds(), paint);
-    }
 
     private void drawHearts(Canvas canvas) {
-        int nbHeart = 3;
+        int nbHeart =  activity.getJeu().getPerso().getNbLife();
         int id = R.drawable.heart;
 
         Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), id);
@@ -137,7 +125,6 @@ public class Scene extends View{
             canvas.drawBitmap(bitmap, posX, 0, null);
             posX += 60;
         }
-        //int i = activity.getJeu().getPerso().getNbLife();
 
     }
 
@@ -147,11 +134,24 @@ public class Scene extends View{
             if(obstacles.size() < maxObstacles && random.nextBoolean()) {
                 addObstacles(canvas);
             }
+            if(activity.getJeu().getPerso().getNbLife() < 4) {
+                addHearth(canvas);
+            }
             update();
-            //drawHitbox(canvas);
+            drawHearts(canvas);
             render(canvas);
         }
 
+    }
+
+    private void addHearth(Canvas canvas) {
+        int max = canvas.getWidth();
+        int y = canvas.getHeight();
+        Point p = new Point(random.nextInt(max),y);
+        int id = R.drawable.heart;
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), id);
+        obstacles.add(new Obstacle(p,velocity,bitmap));
     }
 
     private boolean smallPop() {
@@ -206,6 +206,10 @@ public class Scene extends View{
         for (Obstacle obstacle : obstacles) {
             if (obstacle.getBounds().intersect(activity.getJeu().getPerso().getBounds())) {
                 obstacles.remove(obstacle);
+                if(obstacle instanceof Hearth) {
+                    activity.getJeu().getPerso().addLife();
+                    return false;
+                }
                 return true;
             }
         }
